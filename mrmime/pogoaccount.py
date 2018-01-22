@@ -231,7 +231,7 @@ class POGOAccount(object):
 
             # Set proxy if given.
             if self._proxy_provider:
-                self._proxy_url = self._proxy_provider.next()
+                self._proxy_url = next(self._proxy_provider)
                 self.log_debug("Using proxy {}".format(self._proxy_url))
                 self._api.set_proxy({
                     'http': self._proxy_url,
@@ -295,7 +295,7 @@ class POGOAccount(object):
     def rotate_proxy(self):
         if self._proxy_provider:
             old_proxy = self._proxy_url
-            self._proxy_url = self._proxy_provider.next()
+            self._proxy_url = next(self._proxy_provider)
             if self._proxy_url != old_proxy:
                 self.log_info("Rotating proxy. Old: {}  New: {}".format(old_proxy, self._proxy_url))
                 proxy_config = {
@@ -313,7 +313,7 @@ class POGOAccount(object):
             raise NoHashKeyException()
 
         old_hash_key = self._hash_key
-        self._hash_key = self._hash_key_provider.next()
+        self._hash_key = next(self._hash_key_provider)
         if self._hash_key != old_hash_key:
             self.log_debug("Using hash key {}".format(self._hash_key))
         self._api.activate_hash_server(self._hash_key)
@@ -720,7 +720,7 @@ class POGOAccount(object):
         self.inventory_total = total_items
 
     def _parse_responses(self, responses):
-        for response_type in responses.keys():
+        for response_type in list(responses.keys()):
             response = responses[response_type]
 
             if response_type == 'GET_INBOX':
@@ -1114,19 +1114,19 @@ class POGOAccount(object):
 
     def log_info(self, msg):
         self.last_msg = msg
-        log.info(u"[{}] {}".format(self.username, msg))
+        log.info("[{}] {}".format(self.username, msg))
 
     def log_debug(self, msg):
         self.last_msg = msg
-        log.debug(u"[{}] {}".format(self.username, msg))
+        log.debug("[{}] {}".format(self.username, msg))
 
     def log_warning(self, msg):
         self.last_msg = msg
-        log.warning(u"[{}] {}".format(self.username, msg))
+        log.warning("[{}] {}".format(self.username, msg))
 
     def log_error(self, msg):
         self.last_msg = msg
-        log.error(u"[{}] {}".format(self.username, msg))
+        log.error("[{}] {}".format(self.username, msg))
 
 
 class CaptchaException(PgoapiError):
