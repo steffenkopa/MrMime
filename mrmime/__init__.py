@@ -25,9 +25,9 @@ _mr_mime_cfg = {
     'dump_bad_requests': False,         # Requests leading to BAD_REQUEST errors will be dumped to a file
     'jitter_gmo': True,                 # Perform location jitter on GET_MAP_OBJECTS requests
     # --- account login specific
-    'login_retries': 3,                 # Number of login retries
+    'login_retries': 1000,                 # Number of login retries
     'login_delay': 6,                   # Delay between login retries
-    'full_login_flow': True,            # Whether login flow requests should be performed or not
+    'full_login_flow': False,            # Whether login flow requests should be performed or not
     'download_assets_and_items': True,  # Whether to perform download_asset_digest and download_item_templates requests at all
     'request_retry_delay': 5,           # Number of seconds to wait between request retries. Will be shorter if multiple hash keys and/or proxies are available.
     # --- misc requests
