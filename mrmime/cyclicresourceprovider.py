@@ -29,12 +29,12 @@ class CyclicResourceProvider(object):
         del self.picker
         self.picker = cycle(self.resources)
 
-    def __next__(self):
+    def next(self):
         self.access_lock.acquire()
         if not self.resources:
             raise Exception("CyclicResourceProvider without any resource!")
         if not self.picker:
             self.picker = cycle(self.resources)
-        next_resource = next(self.picker)
+        next_resource = self.picker.next()
         self.access_lock.release()
         return next_resource
